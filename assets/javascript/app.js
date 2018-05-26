@@ -1,50 +1,20 @@
-var apiKey = "JNVSpiNfpdWuvNggqkr0qeNnZwAPWYpA";
-
-var queryUrl = "http://api.giphy.com/v1/gifs/search?q=" + gifSearch + "&api_key=" + apiKey + "&limit=10";
-
-var gifSearch = $(this).attr("data-name");
-
-var buttons = [];
-
-$("#add-gif").on("click", function (event) {
-
-    event.preventDefault();
-
-    var gif = $("#gif-input").val().trim();
-
-    buttons.push(gif);
-
-    renderButtons();
-
-})
-
-function renderButtons() {
-    $("#button-view").empty();
-
-    for (var i = 0; i < buttons.length; i++) {
-        var button = $("<button></button>");
-        button.addClass("btn, btn-dark, gif-button");
-        button.attr("data-name", buttons[i]);
-        button.text(buttons[i]);
-
-        $("#button-view").append(button);
-
-    }
-}
-
-
-$(document).on("click", ".gif-button", displayGifSearch, function() {
-    console.log(gifSearch);
-
-});
+var topics = ["True Detective", "Twin Peaks", "No Country For Old Men", "There Will Be Blood"];
 
 function displayGifSearch() {
+
+    var apiKey = "&api_key=JNVSpiNfpdWuvNggqkr0qeNnZwAPWYpA";
+
+    var gifSearch = $(this).attr("data-gif");
+
+    var queryUrl = "https://api.giphy.com/v1/gifs/search?&q=" + gifSearch + apiKey + "&limit=10";
+
+
+    console.log(gifSearch);
+
     $.ajax({
     url: queryUrl,
     method: "GET"
-})
-
-.then(function (response) {
+}).then(function(response) {
 
     console.log(response);
 
@@ -54,19 +24,62 @@ function displayGifSearch() {
 
         var gifDiv = $("<div>");
         var gifInfo = $("<p>");
+        var gifTitle = $("<p>");
+
+        gifTitle.text("Title: " + results[i].title);
         gifInfo.text("Rating: " + results[i].rating);
 
         var gifImage = $("<img>");
         gifImage.addClass("img-fluid");
 
-        gifImage.attr("src", results[i].images.fixed_height.url);
+        gifImage.attr("src", results[i].images.original.url);
 
-        gifDiv.append(gifInfo);
         gifDiv.append(gifImage);
+        gifDiv.append(gifTitle);
+        gifDiv.append(gifInfo);
 
         $("#gif-view").prepend(gifDiv);
     }
 
-})
+});
 
 }
+
+function renderButtons() {
+
+    $("#button-view").empty();
+
+    for (var i = 0; i < topics.length; i++) {
+        var button = $("<button>");
+        button.addClass("gif-button");
+        button.addClass("btn");
+        button.addClass("btn-outline-dark");
+        button.addClass("m-1");
+        button.attr("data-gif", topics[i]);
+        button.text(topics[i]);
+
+        $("#button-view").append(button);
+
+    }
+}
+
+$("#add-gif").on("click", function(event) {
+
+    event.preventDefault();
+
+    var gif = $("#gif-input").val().trim();
+
+    $("#gif-input").val("");
+
+    topics.push(gif);
+
+    renderButtons();
+
+});
+
+
+$(document).on("click", ".gif-button", displayGifSearch);
+
+renderButtons();
+
+
