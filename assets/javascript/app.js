@@ -24,14 +24,15 @@ function displayGifSearch() {
 
         var gifDiv = $("<div>");
         var gifInfo = $("<p>");
-        gifInfo.text("Rating: " + results[i].rating);
+        gifInfo.text("Title: " + results[i].title + " || Rating: " + results[i].rating);
+        
 
         var gifImage = $("<img>");
         gifImage.addClass("img-fluid");
 
         gifImage.attr("src", results[i].images.original_still.url);
         gifImage.attr("data-still", results[i].images.original_still.url);
-        gifImage.attr("data-animate", results[i].images.orginal.url);
+        gifImage.attr("data-animate", results[i].images.original.url);
         gifImage.attr("data-state", "still");
 
 
@@ -39,21 +40,6 @@ function displayGifSearch() {
         gifDiv.append(gifImage);
 
         $("#gif-view").prepend(gifDiv);
-
-
-        $(".img-fluid").on("click", function() {
-            
-            var state = $(this).attr("data-state");
-    
-            if (state === "still") {
-                 $(this).attr("src", $(this).attr("data-animate"));
-                 $(this).attr("data-state", "animate");
-                } else {
-                $(this).attr("src", $(this).attr("data-still"));
-                 $(this).attr("data-state", "still");
-                 }   
-     
-         })
 
     }
 
@@ -95,6 +81,19 @@ $("#add-gif").on("click", function(event) {
 
 
 $(document).on("click", ".gif-button", displayGifSearch);
+
+$(document).on("click", ".img-fluid", function() {
+            
+    var state = $(this).attr("data-state");
+
+    if (state === "still") {
+         $(this).attr("src", $(this).attr("data-animate"));
+         $(this).attr("data-state", "animate");
+        } else {
+        $(this).attr("src", $(this).attr("data-still"));
+         $(this).attr("data-state", "still");
+         }        
+ })
 
 renderButtons();
 
