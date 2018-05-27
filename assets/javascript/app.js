@@ -24,21 +24,37 @@ function displayGifSearch() {
 
         var gifDiv = $("<div>");
         var gifInfo = $("<p>");
-        var gifTitle = $("<p>");
-
-        gifTitle.text("Title: " + results[i].title);
         gifInfo.text("Rating: " + results[i].rating);
 
         var gifImage = $("<img>");
         gifImage.addClass("img-fluid");
 
-        gifImage.attr("src", results[i].images.original.url);
+        gifImage.attr("src", results[i].images.original_still.url);
+        gifImage.attr("data-still", results[i].images.original_still.url);
+        gifImage.attr("data-animate", results[i].images.orginal.url);
+        gifImage.attr("data-state", "still");
 
-        gifDiv.append(gifImage);
-        gifDiv.append(gifTitle);
+
         gifDiv.append(gifInfo);
+        gifDiv.append(gifImage);
 
         $("#gif-view").prepend(gifDiv);
+
+
+        $(".img-fluid").on("click", function() {
+            
+            var state = $(this).attr("data-state");
+    
+            if (state === "still") {
+                 $(this).attr("src", $(this).attr("data-animate"));
+                 $(this).attr("data-state", "animate");
+                } else {
+                $(this).attr("src", $(this).attr("data-still"));
+                 $(this).attr("data-state", "still");
+                 }   
+     
+         })
+
     }
 
 });
