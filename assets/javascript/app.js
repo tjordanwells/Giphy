@@ -22,24 +22,26 @@ function displayGifSearch() {
 
     for (var i = 0; i < results.length; i++) {
 
-        var gifDiv = $("<div>");
-        var gifInfo = $("<p>");
-        gifInfo.text("Title: " + results[i].title + " || Rating: " + results[i].rating);
+        // var gifDiv = $("<div>");
+        // var gifInfo = $("<p>");
+        // gifInfo.text("Title: " + results[i].title + " || Rating: " + results[i].rating);
         
 
         var gifImage = $("<img>");
         gifImage.addClass("img-fluid");
 
-        gifImage.attr("src", results[i].images.original_still.url);
-        gifImage.attr("data-still", results[i].images.original_still.url);
-        gifImage.attr("data-animate", results[i].images.original.url);
+        gifImage.attr("src", results[i].images.fixed_height_still.url);
+        gifImage.attr("data-still", results[i].images.fixed_height_still.url);
+        gifImage.attr("data-animate", results[i].images.fixed_height.url);
         gifImage.attr("data-state", "still");
 
 
-        gifDiv.append(gifInfo);
-        gifDiv.append(gifImage);
+        // gifDiv.append(gifInfo);
+        // gifDiv.append(gifImage);
+        
 
-        $("#gif-view").prepend(gifDiv);
+        $("#gif-view").prepend(gifImage);
+
 
     }
 
@@ -80,7 +82,7 @@ $("#add-gif").on("click", function(event) {
 });
 
 
-$(document).on("click", ".gif-button", displayGifSearch);
+$(document).on("click", ".gif-button", displayGifSearch)
 
 $(document).on("click", ".img-fluid", function() {
             
